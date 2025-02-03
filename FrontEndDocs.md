@@ -47,4 +47,26 @@
     RAL: 9005
     Pantone: Black 6 C
 
+
+    Pages:
+    Landing page
+    -search bar
+
+    Map page
+
+    Stats page
+
+    Admin Page
+
+    Technologies to know:
+    -React // props, react hooks (useState, useEffect)
+    -Tailwind
+
+    Map
+    -Openstreetmap
+    -Leaflet
+    -Leaflet heat
+
+    
+
     

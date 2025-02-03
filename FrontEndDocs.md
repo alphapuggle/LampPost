@@ -59,7 +59,7 @@
     Admin Page
 
     Technologies to know:
-    -React // props, react hooks (useState, useEffect)
+    -React // creating componenets, props, react hooks (useState, useEffect)
     -Tailwind
 
     Map

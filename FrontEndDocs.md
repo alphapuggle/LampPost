@@ -67,6 +67,13 @@
     -Leaflet
     -Leaflet heat
 
+    How to code:
+
+    clone repo into your directory
+    cd into the frontend directory
+    'npm install' to install dependencies locally *only do once*
+    'npm run dev' to start live server
+
     
 
     

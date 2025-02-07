@@ -1,0 +1,41 @@
+@import "tailwindcss";
+body{
+    background-color: #333333;
+}
+
+  .right-float-container {
+    position: relative;
+    width: 50vw;
+    height: 100dvh; /* Full viewport height */
+    justify-content: flex-end;
+    align-items: right;
+    background: #333333;
+  }
+  .graph-title {
+    font: size 30px;
+    color: orange;
+    margin-top: 25px;
+  }
+  .breakdown-title {
+    font: size 14px;
+    color: orange;
+    text-align: left;
+  }
+  
+  .right-float-image {
+    max-width: 90%; /* Adjust the image size */
+    height: 40%, auto;
+    margin-left: 5%; /* Adds spacing from the edge */
+    border-radius: 10px; /* Optional: Adds rounded corners */
+    float: left;
+    background-color: red;
+  }
+  .left-float-container {
+    position: relative;
+    width: 50vw;
+    height: 100dvh; /* Full viewport height */
+    justify-content: flex-end;
+    align-items: left;
+    background: black;
+    padding: 25px;
+  }

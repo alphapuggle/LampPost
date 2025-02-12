@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Stats from "./pages/Stats";
 import Map from "./pages/Map"
+import 'leaflet/dist/leaflet.css';
 
 
 function App() {

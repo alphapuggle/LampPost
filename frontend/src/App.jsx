@@ -8,7 +8,7 @@ import Map from "./pages/Map"
 
 function App() {
   return (
-    <div>
+    <div className="max-h-screen overflow-hidden">
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />

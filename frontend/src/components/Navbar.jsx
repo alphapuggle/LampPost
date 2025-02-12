@@ -3,7 +3,7 @@ import lamppostIcon from '../assets/lamppost.png';
 
 const Navbar = () => {
     return (
-        <nav className="bg-[#131313] text-white w-screen h-16 flex items-center px-6">
+        <nav className="bg-[#131313] text-white w-screen h-18 flex items-center px-6">
             <div className="w-full flex items-center justify-between">
                 <div className="flex items-center logo-container space-x-4">
                     <img

@@ -7,7 +7,7 @@ const Map = () => {
       <section className="w-[20%] bg-[#333333]">
         <h1 className="text-white mt-5">Recent Crimes</h1>
       </section>
-      <section className="flex-1 h-screen bg-black">
+      <section className="flex-1 min-h-[calc(100vh-4.5rem)] bg-black">
         <MapContainer
             center={[51.505, -0.09]}
             zoom={13}

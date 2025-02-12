@@ -18,6 +18,7 @@ const Navbar = () => {
 
                 <ul className="flex space-x-6 text-lg ml-auto">
                     <li><Link to="/">Home</Link></li>
+                    <li><Link to="/map">Map</Link></li>
                     <li><Link to="/stats">Stats</Link></li>
                 </ul>
                 

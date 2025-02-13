@@ -22,8 +22,8 @@ const Map = () => {
       </section>
       <section className="flex-1 min-h-[calc(100vh-4.5rem)] bg-black">
         <MapContainer
-            center={[51.505, -0.09]}
-            zoom={13}
+            center={[41.2, -77.19]}
+            zoom={8}
             style={{ height: '100%', width: '100%' }}
             >
             <TileLayer

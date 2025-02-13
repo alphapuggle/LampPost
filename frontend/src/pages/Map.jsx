@@ -12,8 +12,13 @@ const customIcon = L.icon({
 const Map = () => {
   return (
     <main className="flex flex-1">
-      <section className="w-[20%] bg-[#333333]">
-        <h1 className="text-white mt-5">Recent Crimes</h1>
+      <section className="w-[20%] bg-[#333333] text-white text-left">
+        <h1 className="text-white text-center mt-5 mb-5">Recent Crimes</h1>
+        <p className='text-Left ml-10 text-xl mb-2'>🔴 Grand theft reported in Indiana!</p>
+        <p className='text-Left ml-10 text-xl mb-2'>🟠 Robbery reported in Pittsburgh!</p>
+        <p className='text-Left ml-10 text-xl mb-2'>🔴 Burglary reported in Erie!</p>
+        <p className='text-Left ml-10 text-xl mb-2'>🟠 Vandalism reported in Scranton!</p>
+        <p className='text-Left ml-10 text-xl mb-2'>🔴 Assault reported in Philadelphia!</p>
       </section>
       <section className="flex-1 min-h-[calc(100vh-4.5rem)] bg-black">
         <MapContainer

@@ -1,6 +1,6 @@
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import streetlight from '../assets/streetlight.png';
+import streetlight from '../assets/streetlight2.png';
 
 const customIcon = L.icon({
   iconUrl: streetlight,

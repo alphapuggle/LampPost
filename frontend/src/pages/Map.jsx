@@ -1,5 +1,13 @@
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import streetlight from '../assets/streetlight.png';
+
+const customIcon = L.icon({
+  iconUrl: streetlight,
+  iconSize: [80, 80],       
+  iconAnchor: [40, 40],
+  popupAnchor: [0, -32],
+});
 
 const Map = () => {
   return (
@@ -17,7 +25,7 @@ const Map = () => {
                 url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
             />
-            <Marker position={[51.505, -0.09]}>
+            <Marker icon={customIcon} position={[51.505, -0.09]}>
                 <Popup>
                 Test popup
                 </Popup>

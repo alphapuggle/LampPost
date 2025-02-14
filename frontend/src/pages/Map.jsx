@@ -1,7 +1,13 @@
+import React, { useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import streetlight from '../assets/streetlight2.png';
-import { Button } from '@mui/material'; 
+import { Button } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import TextField from '@mui/material/TextField';
+
 
 const customIcon = L.icon({
   iconUrl: streetlight,
@@ -11,6 +17,9 @@ const customIcon = L.icon({
 });
 
 const Map = () => {
+
+  const [open, setOpen] = React.useState(false);
+
   return (
     <main className="flex flex-1">
       <section className="w-[20%] bg-[#333333] text-white text-left">
@@ -28,6 +37,7 @@ const Map = () => {
                 backgroundColor: 'rgba(255, 255, 255, 0.2)'
               }
             }}
+            onClick={() => setOpen(true)}
           >
             Want to report an incident? Click here
           </Button>
@@ -41,7 +51,6 @@ const Map = () => {
             >
             <TileLayer
                 url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
             />
             <Marker icon={customIcon} position={[40.6215, -79.1525]}>
                 <Popup>
@@ -50,6 +59,41 @@ const Map = () => {
             </Marker>
         </MapContainer>
       </section>
+
+      <Dialog open={open} onClose={() => setOpen(false)}>
+        <DialogTitle>Report an Incident</DialogTitle>
+        <DialogContent>
+          <TextField 
+            label="Location" 
+            fullWidth 
+            margin="dense" 
+            variant="outlined"
+            sx={{
+              '& label.Mui-focused': { color: '#C62C2C' },
+              '& .MuiOutlinedInput-root': {
+                '&.Mui-focused fieldset': { borderColor: '#C62C2C' }
+              }
+            }}
+          />
+
+          <TextField 
+            label="Incident Details" 
+            multiline 
+            rows={4} 
+            fullWidth 
+            margin="dense" 
+            variant="outlined"
+            sx={{
+              '& label.Mui-focused': { color: '#C62C2C' },
+              '& .MuiOutlinedInput-root': {
+                '&.Mui-focused fieldset': { borderColor: '#C62C2C' }
+              }
+            }}
+          />
+          <Button variant="contained" sx={{ mt: 2, backgroundColor: 'black', color: 'white' }}>Submit Report</Button>
+          <p className="mt-4 text-sm text-[#C62C2C]">If you witness or are a victim of a crime or see an emergency situation, please call 911 immediately.</p>
+        </DialogContent>
+      </Dialog>
       
     </main>
   );

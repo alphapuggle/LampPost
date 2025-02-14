@@ -1,6 +1,7 @@
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import streetlight from '../assets/streetlight2.png';
+import { Button } from '@mui/material'; 
 
 const customIcon = L.icon({
   iconUrl: streetlight,
@@ -19,6 +20,18 @@ const Map = () => {
         <p className='text-Left ml-10 text-xl mb-2'>🔴 Burglary reported in Erie!</p>
         <p className='text-Left ml-10 text-xl mb-2'>🟠 Vandalism reported in Scranton!</p>
         <p className='text-Left ml-10 text-xl mb-2'>🔴 Assault reported in Philadelphia!</p>
+        <span className='w-full flex justify-center mt-5'>
+          <Button 
+            sx={{
+              color: '#FF8C01',
+              '&:hover': {
+                backgroundColor: 'rgba(255, 255, 255, 0.2)'
+              }
+            }}
+          >
+            Want to report an incident? Click here
+          </Button>
+        </span>
       </section>
       <section className="flex-1 min-h-[calc(100vh-4.5rem)] bg-black">
         <MapContainer

@@ -3,7 +3,7 @@ import Bar_Census from '../assets/Bar_Census.jpeg';
 
 const Stats = () => {
     return (
-    <body className='bg [#333333] flex flex-col'>
+    <main className='bg [#333333] flex flex-col'>
       <div className="bg-[#333333] flex w-screen justify-evenly h-60%">
         <div className ="bg-[#333333] flex flex-col w-50%">
           <div className = 'flex flex-col justify-center'>
@@ -38,8 +38,8 @@ const Stats = () => {
       </footer>
 
       
-    </body> 
+    </main> 
     );
   };
   
-  export default Stats;
+export default Stats;

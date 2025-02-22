@@ -7,6 +7,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import TextField from '@mui/material/TextField';
+import axios from 'axios';
 
 
 const customIcon = L.icon({
@@ -19,6 +20,28 @@ const customIcon = L.icon({
 const Map = () => {
 
   const [open, setOpen] = React.useState(false);
+  const [location, setLocation] = useState("");
+  const [incident, setIncident] = useState([]);
+  const [coordinates, setCoordinates] = useState([]);
+
+
+  const getCoordinates = async (address) => {
+    try {
+        const response = await axios.get("https://nominatim.openstreetmap.org/search", {
+            params: { format: "json", q: address }
+        });
+
+        if (response.data.length > 0) {
+            return { lat: parseFloat(response.data[0].lat), lon: parseFloat(response.data[0].lon) };
+        } else {
+            throw new Error("Location not found");
+        }
+    } catch (error) {
+        console.error("Error fetching coordinates:", error);
+        return null;
+    }
+  };
+
 
   return (
     <main className="flex flex-1">
@@ -52,11 +75,14 @@ const Map = () => {
             <TileLayer
                 url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
             />
-            <Marker icon={customIcon} position={[40.6215, -79.1525]}>
-                <Popup>
-                <h1>Test popup!</h1>
-                </Popup>
-            </Marker>
+            {coordinates.map((coord, index) => (
+                  <Marker key={index} icon={customIcon} position={[coord.lat, coord.lon]}>
+                  <Popup>
+                      <h1>Reported Incident</h1>
+                      <p>{coord.description}</p>
+                  </Popup>
+              </Marker>
+            ))}
         </MapContainer>
       </section>
 
@@ -68,6 +94,8 @@ const Map = () => {
             fullWidth 
             margin="dense" 
             variant="outlined"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
             sx={{
               '& label.Mui-focused': { color: '#C62C2C' },
               '& .MuiOutlinedInput-root': {
@@ -83,6 +111,8 @@ const Map = () => {
             fullWidth 
             margin="dense" 
             variant="outlined"
+            value={incident}
+            onChange={(e) => setIncident(e.target.value)}
             sx={{
               '& label.Mui-focused': { color: '#C62C2C' },
               '& .MuiOutlinedInput-root': {
@@ -90,7 +120,38 @@ const Map = () => {
               }
             }}
           />
-          <Button variant="contained" sx={{ mt: 2, backgroundColor: 'black', color: 'white' }}>Submit Report</Button>
+          <Button variant="contained" 
+          sx={{ mt: 2, backgroundColor: 'black', color: 'white' }}
+          onClick={
+            async () => {
+              if (!location.trim()) {
+              alert("Please enter a location.");
+              return;
+            }
+
+            try {
+              const result = await getCoordinates(location);
+              if (result) {
+                setCoordinates(prevCoords => [
+                  ...prevCoords,
+                  { lat: result.lat, lon: result.lon, description: incident }
+                ]);
+                setLocation("")
+                setIncident("")
+              } else {
+                alert("Location not found.")
+              }
+            }
+            catch (error) {
+              console.error("Error fetching coordinates:", error);
+              alert("Something went wrong. Please try again.");
+            }
+            setOpen(false)
+          }}
+          >
+            Submit Report
+          </Button>
+
           <p className="mt-4 text-sm text-[#C62C2C]">If you witness or are a victim of a crime or see an emergency situation, please call 911 immediately.</p>
         </DialogContent>
       </Dialog>

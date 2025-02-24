@@ -8,11 +8,11 @@ const Stats = () => {
         <div className ="bg-[#333333] flex flex-col w-50%">
           <div className = 'flex flex-col justify-center'>
             <h1 className = "text-2xl text-[#FF8C01]">Graph of Data</h1>
-            <img className = "w-50% h-50%" src={Bar_Census} alt="Bar Census" />
+            <img className = "w-lg h-lg" src={Bar_Census} alt="Bar Census" />
           </div>
           <div className = 'flex flex-col justify-center'>
             <h1 className = "text-2xl text-[#FF8C01]"> Map of Area?</h1>
-            <img className = "w-50% h-50%" src = {Bar_Census} alt = "Future heatmap?" />
+            <img className = "w-lg h-lg" src = {Bar_Census} alt = "Future heatmap?" />
           </div>
         </div>
         

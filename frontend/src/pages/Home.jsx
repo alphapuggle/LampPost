@@ -1,83 +1,62 @@
 import darkAlley from "../assets/darkAlley.jpg";
-import paFlag from "../assets/pa_flag.png";
-import streetLt2 from "../assets/streetlight2.png";
-
+import { FaSearch } from "react-icons/fa";
 
 
 const Home = () => {
   return (
-    <div className="relative min-h-screen w-full overflow-x-hidden bg-cover bg-center flex-auto" 
-        style={{ backgroundImage: `url(${darkAlley})`,
-        backgroundAttachment: 'scroll'
-    }}>
-      
-      
-      <div style={{
-          minHeight: "100vh",
-          width: "100%",
-          position: "relative",
-          backdropFilter: "blur(10px)", 
-          WebkitBackdropFilter: "blur(4px)", 
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          paddingBottom: "50px",
-        }}
-      >
-      {/* Header */}
-      <div className="relative text-white p-6 ">
-        <h1 className="text-3xl">Home Page</h1>
-        <p className="m-1.5">Welcome to LampPost!</p>
-        <p className="text-4xl tracking-widest m-3.5 bg-gradient-to-r from-[#C62C2C] to-[#FF8C01] p-1 rounded-lg">Our Mission:</p>
-      </div>
+    <div
+      className="min-h-screen w-full overflow-x-hidden bg-cover bg-center flex-auto"
+      style={{ backgroundImage: `url(${darkAlley})` }}
+    >
+      <div className="min-h-screen w-full flex flex-col items-center pb-12" 
+           style={{ backdropFilter: "blur(10px)", WebkitBackdropFilter: "blur(4px)" }}>
 
-      {/* Mission Statement */}
-      <div className="relative w-1/2 mx-auto text-center top-1/16">
-        <div className="text-white p-10 m-4 rounded-lg" style={{ backgroundColor: "#333333" }}>
-          LampPost's goal at LampPost is simple: Make the world a safer place. We strive to provide the most accurate and up-to-date crime information for citizens to utilize. No one else does it quite like us, as we provide you as a user, an interactive heat map of recent criminal activity. Not to mention an efficient self-reporting section for the fastest live updates. Check out our stats page for an in-depth summary on various crimes, areas, or even statewide stats.
+        <div className=" text-white text-center h-1 w-screen bg-gradient-to-r from-[#C62C2C]/50 to-[#FF8C01]/50">
         </div>
-      </div>
 
-      {/* Pa Flag with american stripes */}
-      <div 
-        className="relative mx-auto left-1/5" 
-        style={{ 
-          backgroundImage: `url(${paFlag})`, 
-          backgroundSize: 'contain', 
-          backgroundPosition: 'center', 
-          width: '60%', 
-          height: '200px', 
-          borderRadius: '10px',
-          backgroundRepeat: 'no-repeat',
-          top: '50px',
-          left: '-150px' 
-        }}>
-        
-      </div>
+        <div className="mx-auto text-center px-8 py-12 mt-45 mb-5 bg-[#333333]/65 rounded-lg shadow-lg max-w-4xl">
+            <h2 className="text-white text-5xl md:text-7xl font-bold tracking-wide leading-tight">
+                Stay Informed. Stay Safe.
+            </h2>
+            <p className="text-gray-300 text-lg md:text-2xl mt-6 leading-relaxed">
+                LampPost empowers communities with real-time crime data, offering an 
+                interactive heat map and the most up-to-date reports. Stay aware, report incidents, 
+                and explore detailed statistics to keep Pennsylvania safe.
+            </p>
+        </div>
 
-      {/* LampPost Logo picture */}
-      <div 
-        className="relative mx-auto right-1/5" 
-        style={{ 
-          backgroundImage: `url(${streetLt2})`, 
-          backgroundSize: 'contain', 
-          backgroundPosition: 'center', 
-          width: '60%', 
-          height: '150px',          
-          backgroundRepeat: 'no-repeat',          
-          bottom: '135px',
-          left:'150px'           
-        }}>
-          <div className="h-40 relative" style={{
-            bottom: '-300px'
-          }}>
-            <p className="text-white p-10 m-4 rounded-lg" style={{ backgroundColor: "#333333" }}>Text for testing only</p>
-          </div>
-        
-      </div>      
+
+        <div className="w-3/4 md:w-1/2 mt-6">
+            <div className="flex items-center w-full p-4 pl-4 rounded-full border border-gray-300 shadow-lg focus-within:ring-2 focus-within:ring-[#FF8C01] bg-white">
+                <FaSearch className="text-gray-500 text-xl" />
+                <input
+                    type="text"
+                    placeholder="Search..."
+                    className="flex-1 p-2 pl-4 text-lg text-gray-400 placeholder-gray-400 bg-transparent focus:outline-none"
+                />
+            </div>
+        </div>
+
+        <div className="flex-grow"></div>
+        <div className=" text-white text-center h-1 w-screen bg-gradient-to-r from-[#FF8C01]/50 to-[#C62C2C]/50">
+        </div>
+        <div className=" bg-black w-screen h-19 text-gray-300 text-left py-4 shadow-lg">
+            <p className="text-lg ml-3">© 2025 LampPost. All Rights Reserved.</p>
+        </div>
+
+
+
+        {/* <div 
+          className="h-52 mx-auto bg-center bg-contain bg-no-repeat rounded-lg mt-8"
+          style={{ backgroundImage: `url(${paFlag})` }}>
+        </div>
+
+        <div 
+          className="w-3/5 h-40 mx-auto bg-center bg-contain bg-no-repeat mt-8"
+          style={{ backgroundImage: `url(${streetLt2})` }}>
+        </div> */}
       </div>
-    </div>     
-    
+    </div>
   );
 };
 

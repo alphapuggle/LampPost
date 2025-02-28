@@ -23,6 +23,9 @@ const Map = () => {
   const [location, setLocation] = useState("");
   const [incident, setIncident] = useState([]);
   const [coordinates, setCoordinates] = useState([]);
+  const [data, setData] = useState([
+    ["Assault","Indiana"],["Robbery","Pittsburgh"],["Grand theft", "Erie"],["Vandalism","Scranton"]
+  ]);
 
 
   const getCoordinates = async (address) => {
@@ -47,11 +50,9 @@ const Map = () => {
     <main className="flex flex-1">
       <section className="w-[20%] bg-[#333333] text-white text-left">
         <h1 className="text-white text-center mt-5 mb-5">Recent Crimes</h1>
-        <p className='text-Left ml-10 text-xl mb-2'>🔴 Grand theft reported in Indiana!</p>
-        <p className='text-Left ml-10 text-xl mb-2'>🟠 Robbery reported in Pittsburgh!</p>
-        <p className='text-Left ml-10 text-xl mb-2'>🔴 Burglary reported in Erie!</p>
-        <p className='text-Left ml-10 text-xl mb-2'>🟠 Vandalism reported in Scranton!</p>
-        <p className='text-Left ml-10 text-xl mb-2'>🔴 Assault reported in Philadelphia!</p>
+        {data.map((data, index) => (
+          <p className='text-Left ml-10 text-xl mb-2'>{ index % 2 === 0 ? "🔴" : "🟠" } {data[0]} reported in {data[1]}!</p>
+        ))}
         <span className='w-full flex justify-center mt-5'>
           <Button 
             sx={{

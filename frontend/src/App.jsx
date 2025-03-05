@@ -9,7 +9,7 @@ import 'leaflet/dist/leaflet.css';
 
 function App() {
   return (
-    <div className="max-h-screen overflow-hidden">
+    <div className="max-h-screen">
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />

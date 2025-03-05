@@ -6,7 +6,7 @@ import Bar_Census from '../assets/Bar_Census.jpeg';
 const Stats = () => {
     return (
     <main>
-      <div className='bg [#333333] flex flex-col h-200px'>
+      <div className='bg [#333333] flex flex-col h-lvh'>
       <div className="bg-[#333333] flex w-screen justify-evenly">
         <div className ="bg-[#333333] flex flex-col w-50%">
           <div className = 'flex flex-col justify-center'>

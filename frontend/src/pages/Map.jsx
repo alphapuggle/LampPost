@@ -173,20 +173,23 @@ const Map = () => {
 
   return (
     <main className="flex flex-1">
-      <section className="w-[20%] bg-[#333333] text-white text-left">
-        <h1 className="text-white text-center mt-5 mb-5">Recent Crimes</h1>
-        <p className="text-Left ml-10 text-xl mb-2">🔴 Grand theft reported in Indiana!</p>
-        <p className="text-Left ml-10 text-xl mb-2">🟠 Robbery reported in Pittsburgh!</p>
-        <p className="text-Left ml-10 text-xl mb-2">🔴 Burglary reported in Erie!</p>
-        <p className="text-Left ml-10 text-xl mb-2">🟠 Vandalism reported in Scranton!</p>
-        <p className="text-Left ml-10 text-xl mb-2">🔴 Assault reported in Philadelphia!</p>
+      <section className="w-full md:w-1/4 lg:w-1/5 bg-[#333333] text-white text-left p-4 md:p-6">
+        <h1 className="text-white text-center mt-5 mb-5 text-lg md:text-xl lg:text-2xl">
+          Recent Crimes
+        </h1>
+
+        <p className="ml-4 text-sm md:text-base lg:text-lg mb-2">🔴 Grand theft reported in Indiana!</p>
+        <p className="ml-4 text-sm md:text-base lg:text-lg mb-2">🟠 Robbery reported in Pittsburgh!</p>
+        <p className="ml-4 text-sm md:text-base lg:text-lg mb-2">🔴 Burglary reported in Erie!</p>
+        <p className="ml-4 text-sm md:text-base lg:text-lg mb-2">🟠 Vandalism reported in Scranton!</p>
+        <p className="ml-4 text-sm md:text-base lg:text-lg mb-2">🔴 Assault reported in Philadelphia!</p>
+
         <span className="w-full flex justify-center mt-5">
           <Button
             sx={{
               color: '#FF8C01',
-              '&:hover': {
-                backgroundColor: 'rgba(255, 255, 255, 0.2)',
-              },
+              '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.2)' },
+              fontSize: { xs: '0.75rem', sm: '0.875rem', md: '1rem' } // Adjust button text size
             }}
             onClick={() => setOpen(true)}
           >
@@ -194,8 +197,16 @@ const Map = () => {
           </Button>
         </span>
       </section>
+
       <section className="flex-1 min-h-[calc(100vh-4.5rem)] bg-black">
-        <MapContainer center={[41.2, -77.19]} zoom={8} style={{ height: '100%', width: '100%' }}>
+      <MapContainer 
+        center={[41.2, -77.19]} 
+        zoom={8}
+        minZoom={8}
+        style={{ height: '100%', width: '100%' }}
+        maxBounds={[[39.7198, -80.5199], [42.2698, -74.6895]]}
+        maxBoundsViscosity={1.0}
+      >
           <TileLayer url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" />
           <HeatmapLayer points={points} options={options} />
           {coordinates.map((coord, index) => (

@@ -17,7 +17,9 @@ export const SearchBar = ({ setResults }) => {
 
   // Fetch data when debounced input changes
   useEffect(() => {
-    if (debouncedInput) {
+    if (debouncedInput.trim() === "") {
+      setResults([]); // Clear results when input is empty
+    } else {
       fetchData(debouncedInput);
     }
   }, [debouncedInput]);

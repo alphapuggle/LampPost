@@ -1,14 +1,19 @@
 .input-wrapper {
     background-color: #333333;
     width: 100%;
+    max-width: 600px; /* Prevent stretching on larger screens */
     border-radius: 10px;
-    border-color: black;
+    border: 2px solid black;
     height: 4rem;
-    padding: 0 15;
-    box-shadow: 0px 0px 8px;
+    padding: 0 15px;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3);
     display: flex;
     align-items: center;
+    transition: transform 0.3s ease-in-out; /* Add smooth effect */
+}
 
+.input-wrapper:hover {
+    transform: scale(1.05); /* Slightly enlarges on hover */
 }
 #search-icon{
     color:#ED2938;

@@ -1,36 +1,54 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import "./SearchBar.css";
 
-export const SearchBar = () => {
-    const [input, setInput] = useState("");
+export const SearchBar = ({ setResults }) => {
+  const [input, setInput] = useState("");
+  const [debouncedInput, setDebouncedInput] = useState(input);
 
-    const fetchData = (value) => {
-        fetch("./SearchBar.json") // Fixed typo: SeachBar -> SearchBar
-            .then((response) => response.json())
-            .then((json) => {
-                console.log(json); // Handle the fetched data
-            })
-            .catch((error) => {
-                console.error("Error fetching data:", error); // Handle fetch errors
-            });
-    };
+  // Set debounce delay to 500ms
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedInput(input);
+    }, 500); // Adjust debounce delay as needed
 
-    const handleChange = (event) => {
-        const value = event.target.value;
-        setInput(value);
-        fetchData(value);
-    };
+    return () => clearTimeout(timer); // Cleanup timer on input change
+  }, [input]);
 
-    return (
-        <div className="input-wrapper w-1/2">
-            <FaSearch id="search-icon" />
-            <input
-                placeholder="Type to search..."
-                type="text"
-                value={input}
-                onChange={handleChange}
-            />
-        </div>
-    );
+  // Fetch data when debounced input changes
+  useEffect(() => {
+    if (debouncedInput) {
+      fetchData(debouncedInput);
+    }
+  }, [debouncedInput]);
+
+  const fetchData = (value) => {
+    fetch("/SearchBar.json")
+      .then((response) => response.json())
+      .then((json) => {
+        const results = json.filter((user) =>
+          user.name.toLowerCase().includes(value.toLowerCase()) // Case-insensitive search
+        );
+        setResults(results);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  };
+
+  const handleChange = (event) => {
+    setInput(event.target.value);
+  };
+
+  return (
+    <div className="input-wrapper w-1/2">
+      <FaSearch id="search-icon" />
+      <input
+        placeholder="Type to search..."
+        type="text"
+        value={input}
+        onChange={handleChange}
+      />
+    </div>
+  );
 };

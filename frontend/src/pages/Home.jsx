@@ -1,6 +1,7 @@
 import darkAlley from "../assets/darkAlley.jpg";
 import paFlag from "../assets/pa_flag.png";
 import streetLt2 from "../assets/streetlight2.png";
+import { SearchBar } from "../components/SearchBar";
 
 const Home = () => {
   return (
@@ -20,7 +21,6 @@ const Home = () => {
 
         {/* Mission Statement and LampPost Logos */}
         <div className="relative w-3/5 mx-auto flex flex-col md:flex-row items-center justify-between text-center gap-6">
-          
           {/* Left LampPost Logo */}
           <div
             className="flex-none w-32 h-32 md:w-40 md:h-40 bg-no-repeat bg-contain bg-center"
@@ -40,12 +40,24 @@ const Home = () => {
             className="flex-none w-32 h-32 md:w-40 md:h-40 bg-no-repeat bg-contain bg-center"
             style={{ backgroundImage: `url(${streetLt2})` }}
           ></div>
-
         </div>
-              </div>
 
-    
-  </div>
+        <div className="justify-center w-1/2">
+          {/* Add Placeholders Below Here */}
+          <div className="relative w-full mx-auto flex flex-col items-center justify-center gap-6 mt-[35vh]">
+            {/* Placeholder 1 */}
+            <div className="w-full p-10 bg-gray-700 text-white rounded-lg">
+              <SearchBar />
+            </div>
+
+            {/* Placeholder 2 */}
+            <div className="w-full p-10 bg-gray-700 text-white rounded-lg mt-10">
+              Search Results
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

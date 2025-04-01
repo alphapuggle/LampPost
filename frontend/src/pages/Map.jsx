@@ -150,9 +150,12 @@ const options = {
 
 const Map = () => {
   const [open, setOpen] = React.useState(false);
-  const [location, setLocation] = useState("");
+  const [locationList, setLocationList] = useState([]);
   const [incident, setIncident] = useState([]);
+  const [crimeList, setCrimeList] = useState([]);
   const [coordinates, setCoordinates] = useState([]);
+  const [currentCrime, setCurrentCrime] = useState("");
+  const [currentLocation, setCurrentLocation] = useState("");
 
   const getCoordinates = async (address) => {
     try {
@@ -178,11 +181,20 @@ const Map = () => {
           Recent Crimes
         </h1>
 
-        <p className="ml-4 text-sm md:text-base lg:text-lg mb-2">🔴 Grand theft reported in Indiana!</p>
-        <p className="ml-4 text-sm md:text-base lg:text-lg mb-2">🟠 Robbery reported in Pittsburgh!</p>
-        <p className="ml-4 text-sm md:text-base lg:text-lg mb-2">🔴 Burglary reported in Erie!</p>
-        <p className="ml-4 text-sm md:text-base lg:text-lg mb-2">🟠 Vandalism reported in Scranton!</p>
-        <p className="ml-4 text-sm md:text-base lg:text-lg mb-2">🔴 Assault reported in Philadelphia!</p>
+        {crimeList.length > 0 ? (
+          crimeList.map((crime, index) => (
+              <p
+                key={index}
+                className="ml-4 text-sm md:text-base lg:text-lg mb-2"
+              >
+                {index % 2 === 0 ? '🔴' : '🟠'} {crime} reported in {locationList[index]}!
+              </p>
+            ))
+          ) : (
+            <p className="ml-4 text-sm md:text-base lg:text-lg mb-2">
+              😊 No recent crimes reported!
+            </p>
+          )}
 
         <span className="w-full flex justify-center mt-5">
           <Button
@@ -228,8 +240,23 @@ const Map = () => {
             fullWidth
             margin="dense"
             variant="outlined"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
+            value={currentLocation}
+            onChange={(e) => setCurrentLocation(e.target.value)}
+            sx={{
+              '& label.Mui-focused': { color: '#C62C2C' },
+              '& .MuiOutlinedInput-root': {
+                '&.Mui-focused fieldset': { borderColor: '#C62C2C' },
+              },
+            }}
+          />
+
+          <TextField
+            label="Crime"
+            fullWidth
+            margin="dense"
+            variant="outlined"
+            value={currentCrime}
+            onChange={(e) => setCurrentCrime(e.target.value)}
             sx={{
               '& label.Mui-focused': { color: '#C62C2C' },
               '& .MuiOutlinedInput-root': {
@@ -258,20 +285,25 @@ const Map = () => {
             variant="contained"
             sx={{ mt: 2, backgroundColor: 'black', color: 'white' }}
             onClick={async () => {
-              if (!location.trim()) {
+              if (!currentLocation.trim()) {
                 alert("Please enter a location.");
                 return;
               }
 
               try {
-                const result = await getCoordinates(location);
+                const result = await getCoordinates(currentLocation);
                 if (result) {
                   setCoordinates((prevCoords) => [
                     ...prevCoords,
                     { lat: result.lat, lon: result.lon, description: incident },
                   ]);
-                  setLocation("");
+                  setLocationList((prev) => [...prev, currentLocation]);
+                  setCrimeList((prev) => [...prev, currentCrime]);
+
+                  setCurrentLocation("");
+                  setCurrentCrime("");
                   setIncident("");
+                  setOpen(false);
                 } else {
                   alert("Location not found.");
                 }
@@ -279,7 +311,6 @@ const Map = () => {
                 console.error("Error fetching coordinates:", error);
                 alert("Something went wrong. Please try again.");
               }
-              setOpen(false);
             }}
           >
             Submit Report

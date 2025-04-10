@@ -12,8 +12,7 @@ export const SearchResults = ({ results }) => {
         return (
           <div key={id} className="result-item">
             <h3>{result.name}</h3>
-            {/* Display other fields if necessary */}
-            <p>{result.description}</p>
+            
           </div>
         );
       })}

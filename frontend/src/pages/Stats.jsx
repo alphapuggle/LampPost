@@ -137,7 +137,17 @@ const Stats = () => {
         </div>
 
         {/* Footer */}
-        <footer className="p-4"></footer>
+        <footer className="p-4 text-white text-center bg-[#1f1f1f] bg-opacity-80 rounded-t-lg">
+          {selectedResult ? (
+            <div>
+              <h2 className="text-lg text-[#FF8C01] font-semibold">Selected Location:</h2>
+              <p>{selectedResult.name}</p>
+            </div>
+          ) : (
+            <p className="text-gray-400">No location selected.</p>
+          )}
+        </footer>
+
       </div>
     </main>
   );

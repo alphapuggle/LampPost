@@ -65,17 +65,18 @@ const handleResultClick = (result) => {
         {/* Search Section */}
         <div className="w-full flex flex-col items-center gap-6">
           {/* Search Bar */}
-          <div className="w-full max-w-lg">
-            <SearchBar setResults={setResults} />
+          <div className="relative w-full max-w-lg">
+            <SearchBar setResults={setResults} onSelect={handleResultClick} />
           </div>
 
-          {/* Search Results */}
-          {results.length > 0 && (
-            <div className="w-full max-w-lg">
-              <SearchResults results={results} />
-            </div>
-          )}
+          {/* Reserve space for Search Results */}
+          <div className="w-full max-w-lg min-h-[150px] transition-all duration-300">
+            {results.length > 0 && (
+              <SearchResults results={results} onSelect={handleResultClick} />
+            )}
+          </div>
 
+          
 
           {/* About Us Carousel */}
           <Carousel />

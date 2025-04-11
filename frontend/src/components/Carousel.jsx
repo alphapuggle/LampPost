@@ -9,18 +9,18 @@ import cardAlleyPic from "../assets/cardAlleyPic.jpg";
 
 const aboutCards = [
   {
-    title: "Our Mission",
-    content: "Empower communities with accessible crime data so they can make safer decisions.",
+    title: "Our Goal",
+    content: "We wish to provide you with real time statistics to keep you safe, much like a lampost will light up the streets and deter crime. We wish to do the same!",
     image: cardAlleyPic 
   },
   {
     title: "Our Team",
-    content: "A passionate group of developers, analysts, and safety advocates.",
+    content: "Our development team consist of proud Indiana University of Pennsylvania students who have worked hard to bring you the safest streets.",
     image: redHawk  
   },
   {
     title: "Our Tech",
-    content: "Built with modern tools like React, Vite, and real-time data integrations.",
+    content: "We provide you the most up to date and accurate crime data possible. Using the UCR website, we can get live updates of crime happening around Pennsylvania",
     image: yellowTape
   },
 ];
@@ -34,7 +34,7 @@ const Carousel = () => {
   const prev = () => setIndex((prev) => (prev - 1 + aboutCards.length) % aboutCards.length);
   const goToSlide = (index) => setIndex(index);
 
-  // ⏱ Auto-play every 4.5 seconds, but pause on hover
+  // ⏱ Auto-play every 8.5 seconds, but pause on hover
   useEffect(() => {
     if (!isHovering) {
       const interval = setInterval(() => {

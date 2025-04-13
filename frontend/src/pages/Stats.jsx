@@ -25,7 +25,16 @@ const Stats = () => {
           {/* Left Section */}
           <div className="flex flex-col w-[750px] space-y-6 content-evenly items-center align-evenly p-[50px]">
             <div className="flex flex-col justify-center items-center bg-[#333333] bg-opacity-80 rounded-lg shadow-lg max-w-[800px] mx-auto">
-              <h1 className="text-2xl text-[#FF8C01]">Graph of Crimes in Indiana</h1>
+            {selectedResult ? (
+            <div>
+              <h2 className="text-2xl text-[#FF8C01]">Crimes in {selectedResult.name}</h2>
+              
+            </div>
+          ) : (
+            <h2 className="text-gray-400">No location selected.</h2>
+          )}
+          
+              
               <PieChart 
                 className="border border-[#FF8C01] bg-white"
                 series={[{
@@ -47,7 +56,13 @@ const Stats = () => {
             </div>
 
             <div className="flex flex-col justify-center items-center bg-[#333333] bg-opacity-80 rounded-lg shadow-lg max-w-[800px]">
-              <h1 className="text-2xl text-[#FF8C01]">Map of Area</h1>
+              {selectedResult ? (
+              <div>
+                <h2 className="text-2xl text-[#FF8C01]">Map of {selectedResult.name}</h2>
+              </div>
+             ) : (
+              <h2 className="text-gray-400">No location selected.</h2>
+             )}
               <MapContainer center={[41.2, -77.19]} zoom={6} className="w-[500px] h-[300px] md:w-[800px] md:h-[400px] rounded-md">
                 <TileLayer url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" />
               </MapContainer>
@@ -58,7 +73,13 @@ const Stats = () => {
           <div className="flex flex-col w-[400px] space-y-6 justify-evenly">
             {/* Crimes by Popularity Section */}
             <div className="m-3 p-4 bg-[#333333] bg-opacity-90 rounded-lg shadow-lg">
-              <h2 className="text-2xl text-[#FF8C01] text-center border-t border-r border-l border-[#FF8C01]">Top 6 Crimes in Indiana</h2>
+            {selectedResult ? (
+              <div>
+                <h2 className="text-2xl text-[#FF8C01] border-t border-r border-l border-[#FF8C01]">Top 5 Crimes in {selectedResult.name}</h2>
+              </div>
+             ) : (
+              <h2 className="text-gray-400 border-t border-r border-l border-[#FF8C01]">No location selected.</h2>
+             )}
               <table className="min-w-full text-white">
                 <thead>
                   <tr className="border border-[#FF8C01]">
@@ -97,7 +118,13 @@ const Stats = () => {
 
             {/* Most Recent Crimes Section */}
             <div className="m-3 p-4 bg-[#333333] bg-opacity-90 rounded-lg shadow-lg">
-              <h2 className="text-2xl text-[#FF8C01] text-center border-t border-r border-l border-[#FF8C01]">Most Recent Crimes In Indiana</h2>
+            {selectedResult ? (
+              <div>
+                <h2 className="text-2xl text-[#FF8C01] border-t border-r border-l border-[#FF8C01]">Most Recent Crimes in {selectedResult.name}</h2>
+              </div>
+             ) : (
+              <h2 className="text-gray-400 border-t border-r border-l border-[#FF8C01]">No location selected.</h2>
+             )}
               <table className="min-w-full text-white">
                 <thead>
                   <tr className="border border-[#FF8C01]">

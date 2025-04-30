@@ -27,7 +27,7 @@ const handleResultClick = (result) => {
       <div className="absolute inset-0 backdrop-blur-lg"></div>
 
       {/* Centered Main Content */}
-      <div className="relative z-10 flex flex-col items-center w-full max-w-6xl px-4 gap-8">
+      <div className="relative z-10 flex flex-col items-center w-full max-w-6xl px-4 gap-9">
         
         {/* Header */}
         <div className="text-white text-center">
@@ -64,7 +64,7 @@ const handleResultClick = (result) => {
         </div>
 
         {/* Search Section */}
-        <div className="w-full flex flex-col items-center gap-6">
+        <div className="w-full flex flex-col items-center">
           {/* Search Bar */}
           <div className="relative w-full max-w-lg">
             <SearchBar setResults={setResults} onSelect={handleResultClick} />

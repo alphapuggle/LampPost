@@ -244,10 +244,17 @@ const Map = () => {
           <HeatmapLayer points={countyCoordinatesArray} options={options} />
           {coordinates.map((coord, index) => (
             <Marker key={index} icon={customIcon} position={[coord.lat, coord.lon]}>
-              <Popup>
-                <h1>Reported Incident</h1>
-                <p>{coord.description}</p>
-              </Popup>
+            <Popup>
+              <div className="w-64 bg-gradient-to-br from-black via-[#1a1a1a] to-[#2a2a2a] text-white border border-[#C62C2C] p-4 rounded-lg shadow-md space-y-2">
+                <h2 className="text-lg font-semibold text-orange-400">Reported Incident</h2>
+                <p className="text-sm text-white leading-snug">
+                  {coord.description}
+                </p>
+                <div className="flex justify-end">
+                </div>
+              </div>
+            </Popup>
+
             </Marker>
           ))}
         </MapContainer>

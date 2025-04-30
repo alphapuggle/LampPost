@@ -13,6 +13,8 @@
   }
 }
 
+
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -91,4 +93,13 @@ button:focus-visible {
 
 .logo-container img{
   filter: brightness(0) saturate(100%) invert(14%) sepia(60%) saturate(8000%) hue-rotate(350deg) brightness(85%) contrast(95%);
+}
+
+.leaflet-popup-content-wrapper {
+  background-color: #000000 !important;
+  color: white;
+}
+
+.leaflet-popup-tip {
+  background-color: #000000 !important;
 }

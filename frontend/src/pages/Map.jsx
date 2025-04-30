@@ -59,6 +59,8 @@ const Map = () => {
   const [countyCoordinatesArray, setCountyCoordinatesArray] = useState([]);
   const [reports, setReports] = useState([]);
   const [now, setNow] = useState(Date.now());
+  const [ucrHeatPoints, setUcrHeatPoints] = useState([]);
+
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -149,6 +151,19 @@ const Map = () => {
     }, 60 * 1000);
     return () => clearInterval(interval);
   }, [now]);
+
+  useEffect(() => {
+    axios.get('http://localhost:3001/api/ucr-crimes')
+      .then(res => {
+        const heatPoints = res.data
+          .filter(d => d.latitude && d.longitude)
+          .map(d => [parseFloat(d.latitude), parseFloat(d.longitude), 0.7]); // 0.7 is intensity
+        setUcrHeatPoints(heatPoints);
+        console.log("points:", heatPoints);
+      })
+      .catch(err => console.error("Failed to fetch UCR heatmap data:", err));
+  }, []);
+  
   
 
   const getCoordinates = async (address) => {
@@ -242,7 +257,7 @@ const Map = () => {
           maxBoundsViscosity={1.0}
         >
           <TileLayer url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" />
-          <HeatmapLayer points={countyCoordinatesArray} options={options} />
+          <HeatmapLayer points={ucrHeatPoints} options={options} />
           {coordinates.map((coord, index) => (
             <Marker key={index} icon={customIcon} position={[coord.lat, coord.lon]}>
               <Popup>

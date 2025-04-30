@@ -83,7 +83,7 @@ const Carousel = () => {
             <img
               src={card.image}
               alt={card.title}
-              className="w-full h-48 object-cover rounded-lg"
+              className="w-full h-40 object-cover rounded-lg"
             />
           </div>
 

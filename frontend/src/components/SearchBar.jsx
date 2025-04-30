@@ -59,8 +59,9 @@ export const SearchBar = ({ setResults, onSelect }) => {
           value={input}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
-          className="w-full"
+          className="w-full placeholder-white text-white"
         />
+
       </div>
       
     </div>

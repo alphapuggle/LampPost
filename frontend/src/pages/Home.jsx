@@ -36,9 +36,10 @@ const handleResultClick = (result) => {
         </div>
 
         {/* Our Mission */}
-        <div className="text-4xl tracking-widest bg-gradient-to-r from-[#C62C2C] to-[#FF8C01] p-1 rounded-lg text-center text-white">
+        <div className="text-4xl tracking-widest bg-gradient-to-r from-[#C62C2C] to-[#FF8C01] p-4 rounded-lg text-center text-white">
           Our Mission:
         </div>
+
 
         {/* Mission Description and Logos */}
         <div className="w-full flex flex-col md:flex-row items-center justify-between text-center gap-4">

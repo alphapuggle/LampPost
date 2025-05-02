@@ -1,2 +1,9 @@
 target/
+<<<<<<< HEAD
 node_modules/
+=======
+.env
+nohup.out
+*/node_modules/
+.vscode/launch.json
+>>>>>>> 8443be1c556577eff42da6837854c5a81942267f

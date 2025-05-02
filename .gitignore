@@ -6,4 +6,6 @@ node_modules/
 nohup.out
 */node_modules/
 .vscode/launch.json
->>>>>>> 8443be1c556577eff42da6837854c5a81942267f
+tl_2024_42_tabblock20/
+tl_2024_us_county/
+*.zip

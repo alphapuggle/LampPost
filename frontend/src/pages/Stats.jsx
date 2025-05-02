@@ -17,23 +17,22 @@ const Stats = () => {
   useEffect(() => {
     const fetchCrimeData = async () => {
       try {
+        console.log("Fetching..")
+        const response = await axios.get(`http://localhost:3001/api/ucr-crimes/county?name=${selectedResult.name}`);
+        const allData = response.data;
 
-        const allDataResponse = await axios.get('http://localhost:3001/api/ucr-crimes');
-        const allData = allDataResponse.data;
-  
 
         if (selectedResult) {
           const filtered = allData.filter(
-            item => item.county?.toLowerCase() === selectedResult.name?.toLowerCase()
+            item => item.County?.toLowerCase() === selectedResult.name?.toLowerCase()
           );
-  
 
+          // Count top offenses
           const crimeCounts = {};
           filtered.forEach(item => {
             const type = (item.OffenseType || 'Unknown').replace(/^"|"$/g, '').trim();
             crimeCounts[type] = (crimeCounts[type] || 0) + 1;
           });
-  
 
           const sorted = Object.entries(crimeCounts)
             .sort((a, b) => b[1] - a[1])
@@ -44,35 +43,29 @@ const Stats = () => {
               value: count,
             }));
           setTopCrimes(sorted);
+
+          // Determine most recent 5 by ReportedOn
+          const recent = filtered
+            .filter(item => item.ReportedOn)
+            .sort((a, b) => dayjs(b.ReportedOn).valueOf() - dayjs(a.ReportedOn).valueOf())
+            .slice(0, 5)
+            .map(item => {
+              const reportedDate = dayjs(item.ReportedOn);
+              const today = dayjs();
+              const diff = today.diff(reportedDate, 'day');
+              return {
+                type: (item.OffenseType || 'Unknown').replace(/^"|"$/g, '').trim(),
+                timeAgo: diff === 0 ? 'Today' : `${diff} day${diff > 1 ? 's' : ''} ago`,
+              };
+            });
+
+          setRecentCrimes(recent);
         }
-  
-
-        const recentResponse = await axios.get('http://localhost:3001/api/ucr-crimes/recent');
-        const recentData = recentResponse.data;
-  
-
-        const filteredRecent = selectedResult
-          ? recentData.filter(
-              item => item.county?.toLowerCase() === selectedResult.name?.toLowerCase()
-            )
-          : [];
-  
-        const recent = filteredRecent.map(item => {
-          const reportedDate = dayjs(item.ReportedOn);
-          const today = dayjs();
-          const diff = today.diff(reportedDate, 'day');
-          return {
-            type: (item.OffenseType || 'Unknown').replace(/^"|"$/g, '').trim(),
-            timeAgo: diff === 0 ? 'Today' : `${diff} day${diff > 1 ? 's' : ''} ago`,
-          };
-        });
-  
-        setRecentCrimes(recent);
       } catch (err) {
         console.error('Error fetching UCR data:', err);
       }
     };
-  
+
     fetchCrimeData();
   }, [selectedResult]);
   

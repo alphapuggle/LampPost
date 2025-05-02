@@ -10,6 +10,7 @@ import TextField from '@mui/material/TextField';
 import axios from 'axios';
 import HeatmapLayer from '../components/HeatmapLayer';
 import Papa from 'papaparse';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const customIcon = L.icon({
   iconUrl: streetlight,
@@ -18,13 +19,10 @@ const customIcon = L.icon({
   popupAnchor: [0, -32],
 });
 
-const countyCoordinates = {
-  "Adams": { lat: 39.8719, lng: -77.2167 },
-  // Add more counties as needed...
-};
+
 
 const options = {
-  radius: 60,
+  radius: 10,
   blur: 15,
   minOpacity: 0.3,
   max: 1.0,
@@ -55,11 +53,11 @@ const Map = () => {
   const [coordinates, setCoordinates] = useState([]);
   const [currentCrime, setCurrentCrime] = useState('');
   const [currentLocation, setCurrentLocation] = useState('');
-  const [counties, setCounties] = useState([]);
-  const [countyCoordinatesArray, setCountyCoordinatesArray] = useState([]);
   const [reports, setReports] = useState([]);
   const [now, setNow] = useState(Date.now());
   const [ucrHeatPoints, setUcrHeatPoints] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
 
 
   useEffect(() => {
@@ -132,16 +130,6 @@ const Map = () => {
     return () => clearInterval(refreshInterval);
   }, []);
 
-  useEffect(() => {
-    if (counties.length > 0) {
-      const coords = counties.map((county) => {
-        const cleanCounty = county.trim();
-        const point = countyCoordinates[cleanCounty];
-        return point ? [point.lat, point.lng, 0.99] : null;
-      }).filter(Boolean);
-      setCountyCoordinatesArray(coords);
-    }
-  }, [counties]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -153,18 +141,20 @@ const Map = () => {
   }, [now]);
 
   useEffect(() => {
+    setIsLoading(true);
     axios.get('http://localhost:3001/api/ucr-crimes')
       .then(res => {
         const heatPoints = res.data
-          .filter(d => d.latitude && d.longitude)
-          .map(d => [parseFloat(d.latitude), parseFloat(d.longitude), 0.7]); // 0.7 is intensity
+          .filter(d => d.Latitude && d.Longitude)
+          .map(d => [parseFloat(d.Latitude), parseFloat(d.Longitude), 0.7]);
+  
         setUcrHeatPoints(heatPoints);
-        console.log("points:", heatPoints);
       })
-      .catch(err => console.error("Failed to fetch UCR heatmap data:", err));
+      .catch(err => console.error("Failed to fetch UCR heatmap data:", err))
+      .finally(() => setIsLoading(false));
   }, []);
   
-  
+
 
   const getCoordinates = async (address) => {
     try {
@@ -247,7 +237,12 @@ const Map = () => {
         </span>
       </section>
 
-      <section className="flex-1 min-h-[calc(100vh-4.5rem)] bg-black">
+      <section className="relative flex-1 min-h-[calc(100vh-4.5rem)] bg-black">
+        {isLoading && (
+          <div className="absolute inset-0 z-[1000] flex items-center justify-center bg-black bg-opacity-60">
+            <CircularProgress sx={{ color: '#FF8C01' }} />
+          </div>
+        )}
         <MapContainer 
           center={[41.2, -77.19]} 
           zoom={8}
@@ -263,15 +258,15 @@ const Map = () => {
               <Popup>
                 <div className="w-64 bg-gradient-to-br from-black via-[#1a1a1a] to-[#2a2a2a] text-white border border-[#c6952c] p-4 rounded-lg shadow-md space-y-2">
                   <h2 className="text-lg font-semibold text-orange-400">Reported Incident</h2>
-                  <p className="text-sm text-white leading-snug">
-                    {coord.description}
-                  </p>
+                  <p className="text-sm text-white leading-snug">{coord.description}</p>
                 </div>
               </Popup>
             </Marker>
           ))}
         </MapContainer>
       </section>
+
+
 
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Report an Incident</DialogTitle>

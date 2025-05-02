@@ -8,7 +8,6 @@ const { Pool } = require('pg');
 
 console.log()
 
-
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -31,7 +30,7 @@ app.post('/api/reports', async (req, res) => {
     );
     res.json(result.rows[0]);
   } catch (err) {
-    console.error('❌ Error inserting report:', err.message);
+    console.error('Error inserting report:', err.message);
     res.status(500).json({ error: 'Failed to insert report' });
   }
 });
@@ -43,7 +42,7 @@ app.get('/api/reports', async (req, res) => {
     );
     res.json(result.rows);
   } catch (err) {
-    console.error('❌ Error fetching reports:', err.message);
+    console.error('Error fetching reports:', err.message);
     res.status(500).json({ error: 'Failed to fetch reports' });
   }
 });

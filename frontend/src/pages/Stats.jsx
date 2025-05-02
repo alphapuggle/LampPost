@@ -44,7 +44,6 @@ const Stats = () => {
             }));
           setTopCrimes(sorted);
 
-          // Determine most recent 5 by ReportedOn
           const recent = filtered
             .filter(item => item.ReportedOn)
             .sort((a, b) => dayjs(b.ReportedOn).valueOf() - dayjs(a.ReportedOn).valueOf())
@@ -124,7 +123,6 @@ const Stats = () => {
             </div>
           </div>
 
-          {/* Right Section */}
           <div className="flex flex-col w-[400px] space-y-6 justify-evenly">
             <div className="m-3 p-4 bg-[#333333] bg-opacity-90 rounded-lg shadow-lg">
               {selectedResult ? (
@@ -152,7 +150,6 @@ const Stats = () => {
               </table>
             </div>
 
-            {/* Dynamic Most Recent Crimes */}
             <div className="m-3 p-4 bg-[#333333] bg-opacity-90 rounded-lg shadow-lg">
               <h2 className="text-2xl text-[#FF8C01] border-t border-r border-l border-[#FF8C01]">Most Recent Crimes</h2>
               <table className="min-w-full text-white">

@@ -67,6 +67,36 @@ app.get('/api/ucr-crimes', async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch UCR crime data' });
     }
   });
+
+  // GET 5 most recent UCR crime records
+app.get('/api/ucr-crimes/recent', async (req, res) => {
+  const query = `
+    SELECT 
+      ucr_crime_data.ucr_crime_data."OffenseType", 
+      ucr_crime_data.ucr_crime_data."ReportedOn", 
+      ucr_crime_data.lamppost_data.geoid, 
+      ucr_crime_data.lamppost_data.county, 
+      ucr_crime_data.lamppost_data.latitude, 
+      ucr_crime_data.lamppost_data.longitude
+    FROM 
+      ucr_crime_data.ucr_crime_data
+    INNER JOIN 
+      ucr_crime_data.lamppost_data 
+      ON ucr_crime_data.ucr_crime_data."GEOID" = ucr_crime_data.lamppost_data.geoid
+    ORDER BY 
+      ucr_crime_data.ucr_crime_data."ReportedOn" DESC
+    LIMIT 5;
+  `;
+
+  try {
+    const result = await pool.query(query);
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Error fetching recent UCR crime data:', err.message, err.stack);
+    res.status(500).json({ error: 'Failed to fetch recent UCR crime data' });
+  }
+});
+
   
 
 app.listen(3001, () => {

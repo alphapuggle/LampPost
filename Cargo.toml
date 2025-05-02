@@ -11,9 +11,10 @@ pgdatetime = "0.3.0"
 postgres = { version = "0.19.10", features = ["with-chrono-0_4"] }
 postgres-native-tls = "0.5.1"
 reqwest = { version = "0.12.15", features = ["blocking", "json"] }
-serde = "1.0.219"
+serde = { version = "1.0.219", features = ["derive"] }
 serde_json = "1.0.140"
 
 tokio = { version = "1.44.1", features = ["full"] }
 tokio-postgres = "0.7.13"
 url = "2.5.4"
+warp = "0.3.7"

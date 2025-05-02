@@ -1,1 +1,5 @@
 target/
+.env
+nohup.out
+*/node_modules/
+.vscode/launch.json

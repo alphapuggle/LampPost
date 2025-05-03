@@ -8,6 +8,7 @@ from dotenv import load_dotenv, dotenv_values
 load_dotenv()
 
 postgres_url = 'postgresql+psycopg2://{}:{}@{}:{}/{}'.format(os.getenv("PG_USER",'postgres'),os.getenv("PG_PASSWORD",''),os.getenv("PG_HOST",'localhost'),os.getenv("PG_PORT","5432"),os.getenv("PG_DBNAME","postgres"))
+print(postgres_url)
 engine = create_engine(postgres_url)
 connection = engine.connect()
 # === Load shapefiles ===

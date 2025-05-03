@@ -27,15 +27,28 @@ pub fn pull() -> Result<(), Box<dyn Error>> {
     // Erie xmin -8962981.544423854 xmax -8945171.716833433 ymin 5148944.545448468 ymax 5158843.140611385
     // Philly xmin -8368091.56111984 xmax -8366978.446895285 ymin 4858536.836293898 ymax 4859155.498491666
     // ~1000 difference between windows
-    let mut ymin = 4858536.836293898;
+    let mut ymin = 4824358.735693379;
+    let youter = 5176291.534518198;
+    let xouter = -8368091.56111984;
     let from_date = "01/24/2025";
     let to_date = "05/02/2025";
-    let mut requests_needed = 0;
-    while ymin <= 5158843.140611385 {
-        let mut xmin = -8962981.544423854;
-        while xmin <= -8368091.56111984 {
-            let xmax = xmin + 1000.0;
-            let ymax = ymin + 1000.0;
+    let mut requests_needed = 0; 
+    let mut requests_made = 0; 
+    while ymin <=  youter {
+        let mut xmin = -9024216.262961842;
+        while xmin <= xouter {
+            requests_needed += 1;
+            xmin += 2000.0;
+        }
+        ymin += 2000.0;
+    }
+
+    let mut ymin = 4824358.735693379;
+    while ymin <=  youter {
+        let mut xmin = -9024216.262961842;
+        while xmin <= xouter {
+            let xmax = xmin + 2000.0;
+            let ymax = ymin + 2000.0;
 
             println!("xmin: {}, xmax: {}, ymin: {}, ymax: {}",xmin,xmax,ymin,ymax);
             let resp: String = reqwest::blocking::get(format!("https://www.ucr.pa.gov/NIBRS.CrimeAnalytics.Service/Silverlight/DataService/GetData/allblocks/Provider/query?f=json&where={{\"offense\":\"'13A','13C','13B','35B','35A','26B','26A','26C','26D','26E','26F','26G','39A','39C','39B','39D','09C','09A','09B','64A','64B','23A','23B','23C','23D','23E','23F','23G','23H','40B','40A','40C','11D','36A','11A','11C','11B','36B','720','200','90A','510','220','250','90B','290','90C','90D','90E','270','210','90F','100','90G','240','90H','370','120','90I','280','90J','520','90Z'\",\"xmin\":{},\"xmax\":{},\"ymin\":{},\"ymax\":{},\"fromDate\":\"\\\"{}\\\"\",\"toDate\":\"\\\"{}\\\"\"}}&spatialRel=esriSpatialRelIntersects&outFields=*",xmin,xmax,ymin,ymax,from_date,to_date))?
@@ -67,10 +80,11 @@ pub fn pull() -> Result<(), Box<dyn Error>> {
                 }
             }
 
-            xmin += 1000.0;
-            requests_needed += 1;
+            xmin += 2000.0;
+            requests_made += 1;
+            println!("{}/{} ({:.2}%)",requests_made,requests_needed,(requests_made as f32)/(requests_needed as f32))
         }
-        ymin += 1000.0;
+        ymin += 2000.0;
     }
     println!("{}",requests_needed);
     

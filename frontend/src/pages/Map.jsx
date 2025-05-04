@@ -254,7 +254,7 @@ const Map = () => {
           zoom={8}
           minZoom={8}
           style={{ height: '100%', width: '100%' }}
-          maxBounds={[[39.7198, -80.5199], [42.2698, -74.6895]]}
+          maxBounds={[[37.5, -83], [44.5, -72.5]]}
           maxBoundsViscosity={1.0}
         >
           <TileLayer url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png" />

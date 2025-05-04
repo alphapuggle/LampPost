@@ -7,6 +7,7 @@ import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import dayjs from 'dayjs';
+import CircularProgress from '@mui/material/CircularProgress';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -16,9 +17,11 @@ const Stats = () => {
 
   const [topCrimes, setTopCrimes] = useState([]);
   const [recentCrimes, setRecentCrimes] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchCrimeData = async () => {
+      setLoading(true);
       try {
         const response = await axios.get(`http://localhost:3001/api/ucr-crimes/county?name=${selectedResult.name}`);
         const allData = response.data;
@@ -61,6 +64,8 @@ const Stats = () => {
         }
       } catch (err) {
         console.error('Error fetching UCR data:', err);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -99,7 +104,6 @@ const Stats = () => {
       padding: 20
     }
   };
-  
 
   return (
     <main 
@@ -123,9 +127,13 @@ const Stats = () => {
               )}
 
               <div className="w-full flex justify-center p-4">
-              <div className="bg-black rounded-lg p-6 w-full max-w-[1200px]">
-                <Pie data={pieData} options={pieOptions} />
-              </div>
+                <div className="bg-black rounded-lg p-6 w-full max-w-[1200px] flex justify-center items-center min-h-[300px]">
+                  {loading ? (
+                    <CircularProgress style={{ color: '#FF8C01' }} />
+                  ) : (
+                    <Pie data={pieData} options={pieOptions} />
+                  )}
+                </div>
               </div>
             </div>
           </div>

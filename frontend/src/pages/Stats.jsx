@@ -1,11 +1,14 @@
 import './stats.css';
 import 'leaflet/dist/leaflet.css';
 import DarkAlley from '../assets/darkAlley.jpg';
-import { PieChart } from '@mui/x-charts/PieChart';
+import { Pie } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import dayjs from 'dayjs';
+
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Stats = () => {
   const location = useLocation();
@@ -17,17 +20,14 @@ const Stats = () => {
   useEffect(() => {
     const fetchCrimeData = async () => {
       try {
-        console.log("Fetching..")
         const response = await axios.get(`http://localhost:3001/api/ucr-crimes/county?name=${selectedResult.name}`);
         const allData = response.data;
-
 
         if (selectedResult) {
           const filtered = allData.filter(
             item => item.County?.toLowerCase() === selectedResult.name?.toLowerCase()
           );
 
-          // Count top offenses
           const crimeCounts = {};
           filtered.forEach(item => {
             const type = (item.OffenseType || 'Unknown').replace(/^"|"$/g, '').trim();
@@ -37,8 +37,7 @@ const Stats = () => {
           const sorted = Object.entries(crimeCounts)
             .sort((a, b) => b[1] - a[1])
             .slice(0, 5)
-            .map(([type, count], index) => ({
-              id: index,
+            .map(([type, count]) => ({
               label: type,
               value: count,
             }));
@@ -67,6 +66,39 @@ const Stats = () => {
 
     fetchCrimeData();
   }, [selectedResult]);
+
+  const pieData = {
+    labels: topCrimes.map(c => c.label),
+    datasets: [{
+      data: topCrimes.map(c => c.value),
+      backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
+      borderColor: '#333',
+      borderWidth: 1
+    }]
+  };
+
+  const pieOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'right',
+        labels: {
+          color: '#ffffff',
+          font: {
+            size: 14
+          }
+        }
+      },
+      tooltip: {
+        bodyColor: '#ffffff',
+        backgroundColor: '#1f1f1f',
+        titleColor: '#FF8C01',
+      }
+    },
+    layout: {
+      padding: 20
+    }
+  };
   
 
   return (
@@ -76,54 +108,30 @@ const Stats = () => {
     >
       <div className="absolute inset-0 bg-opacity-100 backdrop-blur-md"></div>
 
-      <div className="relative flex flex-col h-screen place-content-evenly">
-        <div className="flex w-screen justify-evenly p-4 items-evenly">
-          
+      <div className="relative flex flex-col h-screen justify-evenly">
+        <div className="flex flex-col lg:flex-row w-full justify-evenly p-4 items-start gap-6">
+
           {/* Left Section */}
-          <div className="flex flex-col w-[750px] space-y-6 content-evenly items-center align-evenly p-[50px]">
-            <div className="flex flex-col justify-center items-center bg-[#333333] bg-opacity-80 rounded-lg shadow-lg w-[1000px] mx-auto">
+          <div className="flex flex-col w-full lg:w-[750px] space-y-6 items-center p-4">
+            <div className="flex flex-col justify-center items-center bg-[#333333] bg-opacity-80 rounded-lg shadow-lg w-full">
               {selectedResult ? (
-                <h2 className="text-2xl text-[#FF8C01] text-center w-[1000px] border-b border-[#FF8C01] pb-2 mb-4">
+                <h2 className="text-2xl text-[#FF8C01] text-center w-full border-b border-[#FF8C01] pb-2 mb-4">
                   Crimes in {selectedResult.name}
                 </h2>
-              
               ) : (
                 <h2 className="text-gray-400">No location selected.</h2>
               )}
 
-            <PieChart
-              className="border border-[#FF8C01] bg-white"
-              series={[{
-                data: topCrimes,
-                cx: 280,
-                innerRadius: 50,
-                outerRadius: 240,
-              }]}
-              width={1000}
-              height={580}
-              legend={{
-                direction: 'column',
-                position: { vertical: 'middle', horizontal: 'right' },
-                itemMarkWidth: 14,
-                itemMarkHeight: 14,
-                itemGap: 8,
-                padding: 12,
-                labelStyle: {
-                  fontSize: 14,
-                  fontWeight: 500,
-                },
-                sx: {
-                  backgroundColor: '#ffffff',
-                  borderRadius: 8,
-                  padding: 1,
-                },
-              }}
-            />
-
+              <div className="w-full flex justify-center p-4">
+              <div className="bg-black rounded-lg p-6 w-full max-w-[1200px]">
+                <Pie data={pieData} options={pieOptions} />
+              </div>
+              </div>
             </div>
           </div>
 
-          <div className="flex flex-col w-[400px] space-y-6 justify-evenly">
+          {/* Right Section */}
+          <div className="flex flex-col w-full lg:w-[400px] space-y-6">
             <div className="m-3 p-4 bg-[#333333] bg-opacity-90 rounded-lg shadow-lg">
               {selectedResult ? (
                 <h2 className="text-2xl text-[#FF8C01] border-t border-r border-l border-[#FF8C01]">

@@ -210,18 +210,19 @@ const Map = () => {
 
   return (
     <main className="flex flex-1">
-      <section className="w-full md:w-1/4 lg:w-1/5 bg-[#333333] text-white text-left p-4 md:p-6">
+      <section className="w-full md:w-[29%] lg:w-[29%] bg-[#333333] text-white text-left p-4 md:p-6">
         <h1 className="text-white text-center mt-5 mb-5 text-lg md:text-xl lg:text-2xl">
           Recent Crimes
         </h1>
         {reports.length > 0 ? (
           reports.sort((a, b) => b.timestamp - a.timestamp).map((report, index) => (
             <div key={`${report.timestamp}-${index}`} className="relative ml-4 mb-4 pr-4 text-sm md:text-base lg:text-lg">
-              <p>{index % 2 === 0 ? '🔴' : '🟠'} {report.crime} reported in {report.location}</p>
+              <p className="pr-16">{index % 2 === 0 ? '🔴' : '🟠'} {report.crime} reported in {report.location}</p>
               <span className="absolute right-0 bottom-0 text-xs text-gray-400">
-              (<TimeSince timestamp={report.timestamp} now={now} />)
+                (<TimeSince timestamp={report.timestamp} now={now} />)
               </span>
             </div>
+
           ))
         ) : (
           <p className="ml-4 text-sm md:text-base lg:text-lg mb-2">

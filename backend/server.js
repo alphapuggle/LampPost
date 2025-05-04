@@ -48,6 +48,9 @@ app.get('/api/reports', async (req, res) => {
 });
 
 app.get('/api/ucr-crimes', async (req, res) => {
+  const offset = parseInt(req.query.offset) || 0;
+  const limit = parseInt(req.query.limit) || 1000;
+
   const query = `
     SELECT 
       ucd."OffenseType", 
@@ -60,16 +63,27 @@ app.get('/api/ucr-crimes', async (req, res) => {
       ucr_crime_data.ucr_crime_data AS ucd
     INNER JOIN 
       ucr_crime_data.lamppost_data AS lpd 
-      ON ucd."GEOID"::text = lpd."GEOID"::text;
+      ON ucd."GEOID"::text = lpd."GEOID"::text
+    WHERE 
+      lpd."Latitude" IS NOT NULL AND lpd."Longitude" IS NOT NULL
+    ORDER BY 
+      ucd."ReportedOn" DESC
+    OFFSET $1 LIMIT $2;
   `;
 
   try {
-    const result = await pool.query(query);
+    const result = await pool.query(query, [offset, limit]);
     res.json(result.rows);
   } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch UCR crime data' });
+    console.error("Error fetching UCR data:", err.message);
+    res.status(500).json({ error: 'Failed to fetch UCR data' });
   }
 });
+
+
+
+
+
 
 app.get('/api/ucr-crimes/county', async (req, res) => {
   const county = req.query.name;

@@ -108,21 +108,6 @@ const Map = () => {
       .catch(err => console.error("Failed to load reports:", err));
   };
 
-  useEffect(() => {
-    fetch('/crime_data.csv')
-      .then((response) => response.text())
-      .then((csvText) => {
-        Papa.parse(csvText, {
-          header: true,
-          skipEmptyLines: true,
-          complete: (results) => {
-            const countyArray = results.data.map((row) => row['County']);
-            setCounties(countyArray);
-          },
-        });
-      })
-      .catch((error) => console.error('Error loading CSV:', error));
-  }, []);
 
   useEffect(() => {
     fetchReports();
@@ -141,18 +126,38 @@ const Map = () => {
   }, [now]);
 
   useEffect(() => {
-    setIsLoading(true);
-    axios.get('http://localhost:3001/api/ucr-crimes')
-      .then(res => {
-        const heatPoints = res.data
-          .filter(d => d.Latitude && d.Longitude)
-          .map(d => [parseFloat(d.Latitude), parseFloat(d.Longitude), 0.7]);
+    let offset = 0;
+    const limit = 50000;
+    let allPoints = [];
   
-        setUcrHeatPoints(heatPoints);
-      })
-      .catch(err => console.error("Failed to fetch UCR heatmap data:", err))
-      .finally(() => setIsLoading(false));
+    const loadChunk = async () => {
+      setIsLoading(true);
+      try {
+        while (true) {
+          const res = await axios.get(`http://localhost:3001/api/ucr-crimes?offset=${offset}&limit=${limit}`);
+          const newPoints = res.data
+            .filter(d => d.Latitude && d.Longitude)
+            .map(d => [parseFloat(d.Latitude), parseFloat(d.Longitude), 0.7]);
+  
+          allPoints = [...allPoints, ...newPoints];
+          setUcrHeatPoints([...allPoints]);
+  
+          if (res.data.length < limit) break;
+          offset += limit;
+  
+          await new Promise(resolve => setTimeout(resolve, 100));
+        }
+      } catch (err) {
+        console.error("Error loading chunk:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+  
+    loadChunk();
   }, []);
+  
+  
   
 
 
@@ -238,11 +243,12 @@ const Map = () => {
       </section>
 
       <section className="relative flex-1 min-h-[calc(100vh-4.5rem)] bg-black">
-        {isLoading && (
-          <div className="absolute inset-0 z-[1000] flex items-center justify-center bg-black bg-opacity-60">
-            <CircularProgress sx={{ color: '#FF8C01' }} />
-          </div>
-        )}
+      {isLoading && (
+        <div className="absolute top-4 right-4 z-[1000]">
+          <CircularProgress sx={{ color: '#FF8C01' }} size={36} />
+        </div>
+      )}
+
         <MapContainer 
           center={[41.2, -77.19]} 
           zoom={8}

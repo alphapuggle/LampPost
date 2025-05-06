@@ -28,10 +28,10 @@ pub fn pull() -> Result<(), Box<dyn Error>> {
     // Philly xmin -8368091.56111984 xmax -8366978.446895285 ymin 4858536.836293898 ymax 4859155.498491666
     // ~1000 difference between windows
     let mut ymin = 4824358.735693379;
-    let youter = 5176291.534518198;
-    let xouter = -8368091.56111984;
-    let from_date = "01/24/2025";
-    let to_date = "05/02/2025";
+    let youter = 5196291.534518198;
+    let xouter = -8328091.56111984;
+    let from_date = "05/02/2025";
+    let to_date = "05/04/2025";
     let mut requests_needed = 0; 
     let mut requests_made = 0; 
     while ymin <=  youter {
@@ -45,7 +45,7 @@ pub fn pull() -> Result<(), Box<dyn Error>> {
 
     // Resume at a specific index if throttled & crashed
     // This is error handling rn :3
-    let resume = 6685;
+    let resume = 0;
     let mut ymin = 4824358.735693379;
     while ymin <=  youter {
         let mut xmin = -9024216.262961842;
